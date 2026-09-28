@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#141127" />
+  <title>Celebra — Pessoas & Datas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="font-fix.css" />
+</head>
+<body>
+  <div class="aurora aurora-a"></div><div class="aurora aurora-b"></div>
+  <main class="shell" id="app" hidden>
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard"><span class="brand-mark">C</span><span>Celebra<small>pessoas & datas</small></span></a>
+      <nav>
+        <button class="nav-item active" data-view="dashboard">Visão geral</button>
+        <button class="nav-item" data-view="people">Colaboradores <span id="peopleCount"></span></button>
+        <button class="nav-item" data-view="messages">Textos e cards</button>
+        <button class="nav-item" data-view="settings">Configurações</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="mini-avatar">HG</div><div><strong>Administrador</strong><small>modo local</small></div><button class="icon-button" id="signOut" aria-label="Sair">↗</button></div>
+    </aside>
+    <section class="content">
+      <header class="topbar"><div><p class="eyebrow" id="todayLabel"></p><h1 id="viewTitle">Olá, vamos celebrar</h1></div><div class="top-actions"><button class="quiet-button" id="enableAlerts">Ativar alertas</button><button class="primary-button" id="newPerson">+ Colaborador</button></div></header>
+      <div id="dashboardView" class="view"></div>
+      <div id="peopleView" class="view" hidden></div>
+      <div id="messagesView" class="view" hidden></div>
+      <div id="settingsView" class="view" hidden></div>
+    </section>
+  </main>
+
+  <dialog id="loginDialog" class="login-dialog"><form method="dialog" id="loginForm"><div class="login-mark">C</div><p class="eyebrow">ACESSO RESTRITO</p><h2>Seu painel de<br><em>celebrações.</em></h2><p>Organize aniversários, fotos e mensagens em um só lugar.</p><label>Senha de administrador<input id="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" required /></label><p class="login-error" id="loginError"></p><button class="primary-button wide" type="submit">Entrar no painel</button><small>Primeiro acesso: altere a senha em Configurações.</small></form></dialog>
+
+  <dialog id="personDialog" class="person-dialog"><form method="dialog" id="personForm"><header><div><p class="eyebrow" id="personFormLabel">NOVO COLABORADOR</p><h2 id="personFormTitle">Cadastrar pessoa</h2></div><button class="close" value="cancel" aria-label="Fechar">×</button></header><div class="form-grid"><label>Nome completo<input id="personName" required /></label><label>Aniversário<input id="personBirthday" type="date" /></label><label>Área / equipe<input id="personTeam" placeholder="Ex.: Operações" /></label><label>Status da foto<select id="personPhotoStatus"><option value="pending">Pendente</option><option value="ready">Pronta</option></select></label></div><section class="photo-source"><p class="field-label">Foto de busto</p><div class="tabs"><button type="button" class="tab active" data-photo-mode="link">Link do Drive ou URL</button><button type="button" class="tab" data-photo-mode="upload">Enviar arquivo</button></div><div id="linkPhoto"><input id="personPhotoUrl" placeholder="Cole aqui um link compartilhável do Google Drive" /><small>O app converte links do Drive automaticamente para visualização.</small></div><div id="uploadPhoto" hidden><input id="personPhotoFile" type="file" accept="image/*" /><small>A imagem fica salva no navegador neste modo local.</small></div></section><label>Mensagem de aniversário<textarea id="personMessage" rows="3" placeholder="Uma mensagem especial para esta pessoa..."></textarea></label><footer><button class="quiet-button" value="cancel">Cancelar</button><button class="primary-button" id="savePerson" value="default">Salvar alterações</button></footer></form></dialog>
+
+  <dialog id="importDialog" class="person-dialog"><form method="dialog" id="importForm"><header><div><p class="eyebrow">IMPORTAR BASE</p><h2>Cole os aniversários</h2></div><button class="close" value="cancel">×</button></header><p>Cole duas colunas copiadas do Excel: <strong>nome</strong> e <strong>data</strong>. A data pode ser DD/MM/AAAA ou AAAA-MM-DD.</p><textarea id="bulkPaste" rows="12" placeholder="Nome\t23/05/1967\nOutro nome\t04/06/1990"></textarea><footer><button class="quiet-button" value="cancel">Cancelar</button><button class="primary-button" value="default">Importar registros</button></footer></form></dialog>
+  <script src="app.js"></script>
+</body>
+</html>
