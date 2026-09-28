@@ -1,0 +1,279 @@
+{
+  "people": [
+    {
+      "id": "p1",
+      "name": "Altamir Teixeira da Gama",
+      "birthday": "1967-06-04",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p2",
+      "name": "Alvimar",
+      "birthday": "1983-06-11",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p3",
+      "name": "Anna Paula",
+      "birthday": "1991-11-26",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p4",
+      "name": "Antonio Augusto",
+      "birthday": "1988-06-21",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p5",
+      "name": "Antônio Castro Neto",
+      "birthday": "1967-05-23",
+      "team": "Operações",
+      "photo": "assets/castro.jpg",
+      "photoStatus": "ready",
+      "message": ""
+    },
+    {
+      "id": "p6",
+      "name": "Antonio Jose Machado",
+      "birthday": "2023-06-15",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p7",
+      "name": "Arthur Souza",
+      "birthday": "2006-03-13",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p8",
+      "name": "Carlos",
+      "birthday": "2005-08-28",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p9",
+      "name": "Dieyme Junior",
+      "birthday": "2005-07-07",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p10",
+      "name": "Douglas Maximiliano",
+      "birthday": "1993-06-02",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p11",
+      "name": "Glayson Alves de Jesus",
+      "birthday": "1975-04-29",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p12",
+      "name": "Gustavo Henrique da Silva Queiroz",
+      "birthday": "1995-10-25",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p13",
+      "name": "João Pedro",
+      "birthday": "1999-01-17",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p14",
+      "name": "Kellly",
+      "birthday": null,
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p15",
+      "name": "Leonardo Gurgel",
+      "birthday": "1986-06-29",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p16",
+      "name": "Luis Felipe",
+      "birthday": "2001-10-21",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p17",
+      "name": "Mariane Rodrigues",
+      "birthday": "1989-09-14",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p18",
+      "name": "Maria Olivia",
+      "birthday": "",
+      "team": "",
+      "photo": "",
+      "photoStatus": "pending",
+      "message": ""
+    },
+    {
+      "id": "p19",
+      "name": "Michel Aguiar de Oliveira",
+      "birthday": "1983-01-22",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p20",
+      "name": "Miqueias Palmeira",
+      "birthday": "2004-05-12",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p21",
+      "name": "Paula",
+      "birthday": "1978-11-18",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p22",
+      "name": "Paulo",
+      "birthday": "1993-01-24",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p23",
+      "name": "Rafael Pereira",
+      "birthday": "1989-09-17",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p24",
+      "name": "Rogerio",
+      "birthday": "2004-10-23",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p25",
+      "name": "Ronaldo Adriano Raimundo",
+      "birthday": "1977-12-01",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p26",
+      "name": "Rosangela",
+      "birthday": "1955-01-21",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p27",
+      "name": "Thiago Gurgel",
+      "birthday": "1990-01-14",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p28",
+      "name": "Thiago Souto",
+      "birthday": "1998-05-07",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p29",
+      "name": "Victor Ibrahim",
+      "birthday": "1990-11-06",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    },
+    {
+      "id": "p30",
+      "name": "Wlman de Oliveira",
+      "birthday": "1987-06-04",
+      "team": "",
+      "photo": "",
+      "message": "",
+      "photoStatus": "pending"
+    }
+  ],
+  "messages": {
+    "birthday": "Feliz aniversário, {nome}! Que seu novo ciclo seja cheio de realizações e bons momentos.",
+    "recognition": "Parabéns, {nome}, por mais esta conquista. Seu trabalho faz diferença."
+  },
+  "password": "celebra2026"
+}
