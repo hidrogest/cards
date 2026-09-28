@@ -9,7 +9,7 @@ const GITHUB_SYNC = {
   path: "data/celebra-data.json"
 };
 
-let githubToken = sessionStorage.getItem("celebra-github-token") || "";
+let githubToken = localStorage.getItem("celebra-github-token") || "";
 let githubSha = "";
 let syncTimer = null;
 let syncInProgress = false;
@@ -51,6 +51,17 @@ function updateSyncLabel(text) {
 
 function accessLink() {
   return `${location.origin}${location.pathname}#access=${encodeURIComponent(githubToken)}`;
+}
+
+function accessCode(value) {
+  const text = String(value || "").trim();
+  if (!text) return "";
+  try {
+    const url = new URL(text);
+    return new URLSearchParams(url.hash.slice(1)).get("access") || url.searchParams.get("access") || text;
+  } catch (_) {
+    return text;
+  }
 }
 
 async function loadFromGithub() {
@@ -112,6 +123,7 @@ save = function () {
 
 async function enterWithGithubKey(key) {
   const error = document.querySelector("#loginError");
+  key = accessCode(key);
   if (!key) return;
   error.textContent = "Conectando à base compartilhada…";
   githubToken = key;
@@ -119,7 +131,7 @@ async function enterWithGithubKey(key) {
     const identity = await fetch("https://api.github.com/user", { headers: githubHeaders() });
     if (!identity.ok) throw new Error("Chave inválida ou sem permissão.");
     await loadFromGithub();
-    sessionStorage.setItem("celebra-github-token", githubToken);
+    localStorage.setItem("celebra-github-token", githubToken);
     document.querySelector("#loginDialog").close();
     document.querySelector("#app").hidden = false;
     renderAll();
@@ -127,7 +139,7 @@ async function enterWithGithubKey(key) {
     updateSyncLabel("conectado ao GitHub");
   } catch (failure) {
     githubToken = "";
-    sessionStorage.removeItem("celebra-github-token");
+    localStorage.removeItem("celebra-github-token");
     error.textContent = failure.message || "Não foi possível entrar.";
   }
 }
@@ -139,9 +151,21 @@ function showAccessQr() {
   const dialog = document.createElement("dialog");
   dialog.id = "accessQrDialog";
   dialog.className = "qr-dialog";
-  dialog.innerHTML = `<div><p class="eyebrow">ACESSO RÁPIDO</p><h2>Escaneie para entrar</h2><p>Use a câmera do outro aparelho. O acesso fica conectado nele e a chave sai da barra de endereço automaticamente.</p><div id="accessQrCode" class="qr-code"></div><p class="notice">Trate este QR como uma senha: quem escanear poderá editar a base.</p><button class="quiet-button" id="closeAccessQr">Fechar</button></div>`;
+  dialog.innerHTML = `<div><p class="eyebrow">ACESSO RÁPIDO</p><h2>Abra no celular</h2><p>Aponte a câmera para este QR. O celular entra automaticamente e permanece conectado.</p><div id="accessQrCode" class="qr-code"></div><div class="list-actions"><button class="primary-button" id="copyAccessLink">Copiar link</button><button class="quiet-button" id="shareAccessLink">Compartilhar</button></div><p class="notice">Trate este QR como uma senha: quem escanear poderá editar a base.</p><button class="quiet-button" id="closeAccessQr">Fechar</button></div>`;
   document.body.append(dialog);
   new QRCode(dialog.querySelector("#accessQrCode"), { text: accessLink(), width: 250, height: 250, colorDark: "#17122e", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M });
+  const share = async () => {
+    const link = accessLink();
+    try {
+      if (navigator.share) await navigator.share({ title: "Celebra Hidrogest", text: "Acesse o painel Celebra", url: link });
+      else { await navigator.clipboard.writeText(link); toast("Link de acesso copiado"); }
+    } catch (_) { /* a pessoa pode cancelar o compartilhamento */ }
+  };
+  dialog.querySelector("#copyAccessLink").onclick = async () => {
+    try { await navigator.clipboard.writeText(accessLink()); toast("Link de acesso copiado"); }
+    catch (_) { toast("Não foi possível copiar. Use o QR acima."); }
+  };
+  dialog.querySelector("#shareAccessLink").onclick = share;
   dialog.querySelector("#closeAccessQr").onclick = () => dialog.close();
   dialog.addEventListener("close", () => dialog.remove(), { once: true });
   dialog.showModal();
@@ -153,11 +177,11 @@ renderSettings = function () {
   if (!grid) return;
   const oldAccessCard = [...grid.children].find(item => item.textContent.includes("Senha local"));
   if (oldAccessCard) {
-    oldAccessCard.innerHTML = `<p class="eyebrow">ACESSO</p><h2>Chave como senha</h2><p>A chave do GitHub é a senha deste painel. Ela não fica salva ao sair e permite gravar a mesma base para toda a equipe.</p><p class="notice">Ao trocar a chave no GitHub, basta sair daqui e entrar novamente com a nova.</p>`;
+  oldAccessCard.innerHTML = `<p class="eyebrow">ACESSO</p><h2>Este aparelho está conectado</h2><p>O acesso permanece neste aparelho até você sair. Para adicionar um celular, use o QR de acesso ao lado.</p><p class="notice">Ao trocar o código de acesso, saia e entre novamente.</p>`;
   }
   const card = document.createElement("section");
   card.className = "card settings-card";
-  card.innerHTML = `<p class="eyebrow">BASE COMPARTILHADA</p><h2>GitHub conectado</h2><p>As alterações nesta tela ficam guardadas no arquivo compartilhado do painel. A chave de acesso não é salva ao sair.</p><div class="list-actions"><button class="primary-button" id="saveNow">Salvar agora</button><button class="quiet-button" id="refreshData">Atualizar base</button><button class="quiet-button" id="showAccessQr">Mostrar QR de acesso</button></div><p class="notice">Status: <strong id="githubStatus">${githubToken ? "pronto para salvar" : "entre com a chave para sincronizar"}</strong></p>`;
+  card.innerHTML = `<p class="eyebrow">BASE COMPARTILHADA</p><h2>Tudo salvo para a equipe</h2><p>As alterações deste painel ficam na mesma base compartilhada. Para abrir o painel em um celular, use o QR — é só escanear uma vez.</p><div class="list-actions"><button class="primary-button" id="saveNow">Salvar agora</button><button class="quiet-button" id="refreshData">Atualizar base</button><button class="quiet-button" id="showAccessQr">Abrir QR para celular</button></div><p class="notice">Status: <strong id="githubStatus">${githubToken ? "pronto para salvar" : "entre para sincronizar"}</strong></p>`;
   grid.prepend(card);
   document.querySelector("#saveNow").onclick = () => syncToGithub();
   document.querySelector("#showAccessQr").onclick = showAccessQr;
@@ -175,7 +199,7 @@ renderSettings = function () {
 document.querySelector("#loginForm").addEventListener("submit", async event => {
   event.preventDefault();
   event.stopImmediatePropagation();
-  const key = document.querySelector("#password").value.trim();
+  const key = accessCode(document.querySelector("#password").value);
   const error = document.querySelector("#loginError");
   if (!key) return;
   error.textContent = "Conectando à base compartilhada…";
@@ -184,7 +208,7 @@ document.querySelector("#loginForm").addEventListener("submit", async event => {
     const identity = await fetch("https://api.github.com/user", { headers: githubHeaders() });
     if (!identity.ok) throw new Error("Chave inválida ou sem permissão.");
     await loadFromGithub();
-    sessionStorage.setItem("celebra-github-token", githubToken);
+    localStorage.setItem("celebra-github-token", githubToken);
     document.querySelector("#loginDialog").close();
     document.querySelector("#app").hidden = false;
     renderAll();
@@ -192,7 +216,7 @@ document.querySelector("#loginForm").addEventListener("submit", async event => {
     updateSyncLabel("conectado ao GitHub");
   } catch (failure) {
     githubToken = "";
-    sessionStorage.removeItem("celebra-github-token");
+    localStorage.removeItem("celebra-github-token");
     error.textContent = failure.message || "Não foi possível entrar.";
   }
 }, true);
@@ -200,7 +224,7 @@ document.querySelector("#loginForm").addEventListener("submit", async event => {
 document.querySelector("#signOut").onclick = () => {
   githubToken = "";
   githubSha = "";
-  sessionStorage.removeItem("celebra-github-token");
+  localStorage.removeItem("celebra-github-token");
   document.querySelector("#app").hidden = true;
   document.querySelector("#password").value = "";
   document.querySelector("#loginDialog").showModal();
@@ -211,4 +235,6 @@ if (accessFromHash) {
   history.replaceState(null, "", `${location.pathname}${location.search}`);
   document.querySelector("#password").value = accessFromHash;
   enterWithGithubKey(accessFromHash);
+} else if (githubToken) {
+  enterWithGithubKey(githubToken);
 }
