@@ -9,7 +9,10 @@ const GITHUB_SYNC = {
   path: "data/celebra-data.json"
 };
 
-let githubToken = localStorage.getItem("celebra-github-token") || "";
+function savedAccess() { return localStorage.getItem("celebra-github-token") || (document.cookie.match(/(?:^|; )celebra-access=([^;]+)/)?.[1] ? decodeURIComponent(document.cookie.match(/(?:^|; )celebra-access=([^;]+)/)?.[1]) : ""); }
+function rememberAccess(value) { localStorage.setItem("celebra-github-token", value); document.cookie = `celebra-access=${encodeURIComponent(value)}; max-age=31536000; path=/; SameSite=Lax; Secure`; }
+function forgetAccess() { localStorage.removeItem("celebra-github-token"); document.cookie = "celebra-access=; max-age=0; path=/; SameSite=Lax; Secure"; }
+let githubToken = savedAccess();
 let githubSha = "";
 let syncTimer = null;
 let syncInProgress = false;
@@ -50,7 +53,7 @@ function updateSyncLabel(text) {
 }
 
 function accessLink() {
-  return `${location.origin}${location.pathname}#access=${encodeURIComponent(githubToken)}`;
+  return `${location.origin}${location.pathname}?access=${encodeURIComponent(githubToken)}`;
 }
 
 function accessCode(value) {
@@ -131,7 +134,7 @@ async function enterWithGithubKey(key) {
     const identity = await fetch("https://api.github.com/user", { headers: githubHeaders() });
     if (!identity.ok) throw new Error("Chave inválida ou sem permissão.");
     await loadFromGithub();
-    localStorage.setItem("celebra-github-token", githubToken);
+    rememberAccess(githubToken);
     document.querySelector("#loginDialog").close();
     document.querySelector("#app").hidden = false;
     renderAll();
@@ -139,7 +142,7 @@ async function enterWithGithubKey(key) {
     updateSyncLabel("conectado ao GitHub");
   } catch (failure) {
     githubToken = "";
-    localStorage.removeItem("celebra-github-token");
+    forgetAccess();
     error.textContent = failure.message || "Não foi possível entrar.";
   }
 }
@@ -208,7 +211,7 @@ document.querySelector("#loginForm").addEventListener("submit", async event => {
     const identity = await fetch("https://api.github.com/user", { headers: githubHeaders() });
     if (!identity.ok) throw new Error("Chave inválida ou sem permissão.");
     await loadFromGithub();
-    localStorage.setItem("celebra-github-token", githubToken);
+    rememberAccess(githubToken);
     document.querySelector("#loginDialog").close();
     document.querySelector("#app").hidden = false;
     renderAll();
@@ -216,7 +219,7 @@ document.querySelector("#loginForm").addEventListener("submit", async event => {
     updateSyncLabel("conectado ao GitHub");
   } catch (failure) {
     githubToken = "";
-    localStorage.removeItem("celebra-github-token");
+    forgetAccess();
     error.textContent = failure.message || "Não foi possível entrar.";
   }
 }, true);
@@ -224,15 +227,15 @@ document.querySelector("#loginForm").addEventListener("submit", async event => {
 document.querySelector("#signOut").onclick = () => {
   githubToken = "";
   githubSha = "";
-  localStorage.removeItem("celebra-github-token");
+  forgetAccess();
   document.querySelector("#app").hidden = true;
   document.querySelector("#password").value = "";
   document.querySelector("#loginDialog").showModal();
 };
 
-const accessFromHash = new URLSearchParams(location.hash.slice(1)).get("access");
+const accessFromHash = new URLSearchParams(location.hash.slice(1)).get("access") || new URLSearchParams(location.search).get("access");
 if (accessFromHash) {
-  history.replaceState(null, "", `${location.pathname}${location.search}`);
+  history.replaceState(null, "", location.pathname);
   document.querySelector("#password").value = accessFromHash;
   enterWithGithubKey(accessFromHash);
 } else if (githubToken) {
