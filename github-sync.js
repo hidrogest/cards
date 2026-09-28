@@ -49,6 +49,10 @@ function updateSyncLabel(text) {
   if (label) label.textContent = text;
 }
 
+function accessLink() {
+  return `${location.origin}${location.pathname}#access=${encodeURIComponent(githubToken)}`;
+}
+
 async function loadFromGithub() {
   const response = await fetch(`${githubApiUrl()}?ref=${encodeURIComponent(GITHUB_SYNC.branch)}`, { headers: githubHeaders() });
   if (response.status === 404) {
@@ -106,6 +110,43 @@ save = function () {
   scheduleSync();
 };
 
+async function enterWithGithubKey(key) {
+  const error = document.querySelector("#loginError");
+  if (!key) return;
+  error.textContent = "Conectando à base compartilhada…";
+  githubToken = key;
+  try {
+    const identity = await fetch("https://api.github.com/user", { headers: githubHeaders() });
+    if (!identity.ok) throw new Error("Chave inválida ou sem permissão.");
+    await loadFromGithub();
+    sessionStorage.setItem("celebra-github-token", githubToken);
+    document.querySelector("#loginDialog").close();
+    document.querySelector("#app").hidden = false;
+    renderAll();
+    checkAlerts();
+    updateSyncLabel("conectado ao GitHub");
+  } catch (failure) {
+    githubToken = "";
+    sessionStorage.removeItem("celebra-github-token");
+    error.textContent = failure.message || "Não foi possível entrar.";
+  }
+}
+
+function showAccessQr() {
+  if (!githubToken) return toast("Entre com a chave antes de gerar o QR.");
+  if (typeof QRCode === "undefined") return toast("Não foi possível carregar o gerador de QR agora.");
+  document.querySelector("#accessQrDialog")?.remove();
+  const dialog = document.createElement("dialog");
+  dialog.id = "accessQrDialog";
+  dialog.className = "qr-dialog";
+  dialog.innerHTML = `<div><p class="eyebrow">ACESSO RÁPIDO</p><h2>Escaneie para entrar</h2><p>Use a câmera do outro aparelho. O acesso fica conectado nele e a chave sai da barra de endereço automaticamente.</p><div id="accessQrCode" class="qr-code"></div><p class="notice">Trate este QR como uma senha: quem escanear poderá editar a base.</p><button class="quiet-button" id="closeAccessQr">Fechar</button></div>`;
+  document.body.append(dialog);
+  new QRCode(dialog.querySelector("#accessQrCode"), { text: accessLink(), width: 250, height: 250, colorDark: "#17122e", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M });
+  dialog.querySelector("#closeAccessQr").onclick = () => dialog.close();
+  dialog.addEventListener("close", () => dialog.remove(), { once: true });
+  dialog.showModal();
+}
+
 renderSettings = function () {
   originalRenderSettings();
   const grid = document.querySelector("#settingsView .settings-grid");
@@ -116,9 +157,10 @@ renderSettings = function () {
   }
   const card = document.createElement("section");
   card.className = "card settings-card";
-  card.innerHTML = `<p class="eyebrow">BASE COMPARTILHADA</p><h2>GitHub conectado</h2><p>As alterações nesta tela ficam guardadas no arquivo compartilhado do painel. A chave de acesso não é salva ao sair.</p><div class="list-actions"><button class="primary-button" id="saveNow">Salvar agora</button><button class="quiet-button" id="refreshData">Atualizar base</button></div><p class="notice">Status: <strong id="githubStatus">${githubToken ? "pronto para salvar" : "entre com a chave para sincronizar"}</strong></p>`;
+  card.innerHTML = `<p class="eyebrow">BASE COMPARTILHADA</p><h2>GitHub conectado</h2><p>As alterações nesta tela ficam guardadas no arquivo compartilhado do painel. A chave de acesso não é salva ao sair.</p><div class="list-actions"><button class="primary-button" id="saveNow">Salvar agora</button><button class="quiet-button" id="refreshData">Atualizar base</button><button class="quiet-button" id="showAccessQr">Mostrar QR de acesso</button></div><p class="notice">Status: <strong id="githubStatus">${githubToken ? "pronto para salvar" : "entre com a chave para sincronizar"}</strong></p>`;
   grid.prepend(card);
   document.querySelector("#saveNow").onclick = () => syncToGithub();
+  document.querySelector("#showAccessQr").onclick = showAccessQr;
   document.querySelector("#refreshData").onclick = async () => {
     try {
       await loadFromGithub();
@@ -163,3 +205,10 @@ document.querySelector("#signOut").onclick = () => {
   document.querySelector("#password").value = "";
   document.querySelector("#loginDialog").showModal();
 };
+
+const accessFromHash = new URLSearchParams(location.hash.slice(1)).get("access");
+if (accessFromHash) {
+  history.replaceState(null, "", `${location.pathname}${location.search}`);
+  document.querySelector("#password").value = accessFromHash;
+  enterWithGithubKey(accessFromHash);
+}
