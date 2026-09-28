@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="font-fix.css" />
+  <link rel="stylesheet" href="brand-fix.css" />
 </head>
 <body>
   <div class="aurora aurora-a"></div><div class="aurora aurora-b"></div>
@@ -39,6 +40,7 @@
 
   <dialog id="importDialog" class="person-dialog"><form method="dialog" id="importForm"><header><div><p class="eyebrow">IMPORTAR BASE</p><h2>Cole os aniversários</h2></div><button class="close" value="cancel">×</button></header><p>Cole duas colunas copiadas do Excel: <strong>nome</strong> e <strong>data</strong>. A data pode ser DD/MM/AAAA ou AAAA-MM-DD.</p><textarea id="bulkPaste" rows="12" placeholder="Nome\t23/05/1967\nOutro nome\t04/06/1990"></textarea><footer><button class="quiet-button" value="cancel">Cancelar</button><button class="primary-button" value="default">Importar registros</button></footer></form></dialog>
   <script src="app.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" referrerpolicy="no-referrer"></script>
   <script src="github-sync.js"></script>
 </body>
 </html>
