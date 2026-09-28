@@ -5,10 +5,11 @@ Aplicação estática e editável para organizar colaboradores, aniversários, f
 ## Como usar
 
 1. Abra `index.html` no navegador ou envie a pasta inteira para um repositório do GitHub e ative o GitHub Pages.
-2. Entre com a senha inicial `celebra2026` e altere-a em **Configurações**.
+2. Crie uma chave de acesso do GitHub com permissão de **Conteúdo: leitura e escrita** apenas para o repositório `hidrogest/cards`. Cole essa chave no acesso do painel: ela passa a funcionar como a senha e permite que o site salve a base compartilhada.
 3. Na aba **Colaboradores**, clique em uma pessoa para completar dados, enviar uma foto ou colar um link compartilhável do Google Drive.
 4. Para importar dados do Excel, copie as colunas de nome e data e use **Importar do Excel**. O formato aceito é `nome + tab + data`.
-5. Em **Configurações**, baixe o arquivo `.ics` e importe-o no Google Agenda. Ele cria um aviso anual sete dias antes de cada aniversário.
+5. Em **Textos e cards**, escolha uma pessoa e use **Baixar card PNG** para ter um card pronto para postar. A versão SVG preserva alta qualidade caso queira editar ou se uma foto externa impedir a conversão em PNG.
+6. Em **Configurações**, baixe o arquivo `.ics` e importe-o no Google Agenda. Ele cria um aviso anual sete dias antes de cada aniversário.
 
 ## Fotos
 
@@ -17,9 +18,9 @@ Aplicação estática e editável para organizar colaboradores, aniversários, f
 
 ## Importante sobre login e dados
 
-Este projeto não tem servidor porque foi preparado para você colocar no GitHub sem publicar agora. Por isso, a senha e os dados ficam no `localStorage` do navegador. Isso é útil para prototipar e trabalhar sozinho, mas não substitui um acesso seguro e compartilhado.
+O painel usa a API do GitHub para gravar a base em `data/celebra-data.json`. A chave de acesso não entra no código nem é publicada: ela fica somente na sessão do navegador e é removida ao sair. Para poucas pessoas, a mesma chave pode ser usada como a senha do painel.
 
-Para uso real por várias pessoas, conecte a interface a Supabase ou Firebase para autenticação, banco de dados e armazenamento. O desenho das telas e os dados já estão estruturados para essa próxima etapa.
+O arquivo de dados é criado automaticamente na primeira alteração salva. Se quiser uma segurança mais forte ou usuários com senhas próprias, o próximo passo é migrar para Supabase ou Firebase.
 
 ## Tipografia
 
