@@ -1,0 +1,9 @@
+.message-preview{background:linear-gradient(145deg,#0b3975,#1269ad)}
+.message-preview:after{border-color:#70d4e466}
+.qr-dialog{width:min(390px,calc(100vw - 32px));border:0;border-radius:22px;padding:0;box-shadow:0 30px 80px #17122e55}
+.qr-dialog::backdrop{background:#17122e99;backdrop-filter:blur(6px)}
+.qr-dialog>div{padding:30px;text-align:center}
+.qr-dialog h2{font:34px var(--display);font-weight:400;margin:0 0 12px}
+.qr-dialog p:not(.eyebrow){color:var(--muted);line-height:1.5;font-size:14px}
+.qr-code{width:270px;height:270px;margin:22px auto;padding:10px;border-radius:16px;background:#fff;box-shadow:0 12px 26px #17122e18}
+.qr-code img{display:block;margin:auto}
