@@ -16,7 +16,12 @@ function driveFileId(value){
   const match=text.match(/(?:\/d\/|[?&]id=|\/thumbnail\?id=)([\w-]{10,})/);
   return match?match[1]:"";
 }
-function asPhoto(url){const id=driveFileId(url);return id?`https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w2000`:String(url||"").trim();}
+function asPhoto(url){
+  const id=driveFileId(url);
+  // Endpoint de imagem do próprio Google: aceita o mesmo ID do link de
+  // compartilhamento e funciona tanto na prévia quanto no PNG.
+  return id?`https://lh3.googleusercontent.com/d/${encodeURIComponent(id)}=w2000`:String(url||"").trim();
+}
 function birthdayParts(date){if(!date)return null;const [,m,d]=date.match(/\d{4}-(\d{2})-(\d{2})/)||[];return m&&d?{m:+m,d:+d}:null;}
 function nextOccurrence(p){const x=birthdayParts(p.birthday);if(!x)return null;const n=new Date(), y=n.getFullYear();let due=new Date(y,x.m-1,x.d,12);if(due<new Date(n.getFullYear(),n.getMonth(),n.getDate()))due.setFullYear(y+1);return due;}
 function daysUntil(p){const d=nextOccurrence(p);if(!d)return 9999;return Math.ceil((d-new Date())/86400000);}
