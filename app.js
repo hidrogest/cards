@@ -62,3 +62,43 @@ $("#personForm").addEventListener("submit",e=>{e.preventDefault();const record={
 $("#importForm").addEventListener("submit",e=>{e.preventDefault();const lines=$("#bulkPaste").value.trim().split(/\r?\n/).filter(Boolean);let added=0;lines.forEach(line=>{const [name,date]=line.split(/\t|;/);if(!name)return;const birthday=parseDate(date||"");const exists=state.people.find(p=>p.name.toLowerCase()===name.trim().toLowerCase());if(exists){exists.birthday=birthday||exists.birthday;}else {state.people.push({id:`p${Date.now()}${added}`,name:name.trim(),birthday,team:"",photo:"",message:"",photoStatus:"pending"});added++;}});save();$("#importDialog").close();$("#bulkPaste").value="";renderAll();toast(`${added} novos registros importados`);});
 function renderReadyCards(){const v=$("#cardsView"),ps=state.people.filter(p=>p.photo);v.innerHTML=`<section class="cards-hero"><p class="eyebrow">PRONTO PARA CELEBRAR</p><h2>Cards prontos<br><em>para baixar.</em></h2><p>Escolha uma pessoa e baixe o PNG oficial, com foto e mensagem padrão.</p></section><div class="ready-grid">${ps.map(p=>`<article class="ready-card"><img src="${esc(asPhoto(p.photo))}" alt=""><div><p class="eyebrow">CARD HIDROGEST</p><h3>${esc(p.name)}</h3><button class="primary-button ready-download" data-id="${p.id}">Baixar PNG</button></div></article>`).join("")||"<p>Cadastre fotos para gerar cards.</p>"}</div>`;v.querySelectorAll(".ready-download").forEach(b=>b.onclick=()=>{const p=state.people.find(x=>x.id===b.dataset.id);downloadCardPng(p,state.messages.birthday)});}
 const renderAllBase=renderAll;renderAll=function(){renderAllBase();renderReadyCards()};selectView=function(v){document.querySelectorAll(".view").forEach(x=>x.hidden=true);$(`#${v}View`).hidden=false;document.querySelectorAll(".nav-item").forEach(x=>x.classList.toggle("active",x.dataset.view===v));$("#viewTitle").textContent={dashboard:"Olá, vamos celebrar",people:"Colaboradores",messages:"Textos e cards",cards:"Cards prontos",settings:"Configurações"}[v]};document.querySelectorAll(".nav-item").forEach(b=>b.onclick=()=>selectView(b.dataset.view));
+
+// O Drive pode exibir uma foto no navegador, mas bloquear a leitura dela pelo
+// canvas (proteção CORS). Em vez de entregar um PNG branco, avisamos qual é a
+// ação que efetivamente preserva a foto no card.
+const downloadCardPngBase = downloadCardPng;
+downloadCardPng = async function(person, template){
+  if(person?.photo && driveFileId(person.photo)){
+    const permitted = await loadCardPhoto(asPhoto(person.photo));
+    if(!permitted){
+      toast("O Drive mostra a foto, mas bloqueou o uso no PNG. Abra o perfil e use ‘Enviar arquivo’ para este card.");
+      return;
+    }
+  }
+  return downloadCardPngBase(person, template);
+};
+
+function compactProfilePhoto(file){
+  return new Promise((resolve,reject)=>{
+    const source=new Image(), url=URL.createObjectURL(file);
+    source.onload=()=>{
+      const longest=1200, scale=Math.min(1,longest/Math.max(source.naturalWidth,source.naturalHeight));
+      const canvas=document.createElement("canvas");
+      canvas.width=Math.max(1,Math.round(source.naturalWidth*scale));
+      canvas.height=Math.max(1,Math.round(source.naturalHeight*scale));
+      canvas.getContext("2d").drawImage(source,0,0,canvas.width,canvas.height);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL("image/jpeg",.86));
+    };
+    source.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Não foi possível ler esta imagem."));};
+    source.src=url;
+  });
+}
+$("#personPhotoFile").onchange=async event=>{
+  const file=event.target.files[0];
+  if(!file)return;
+  try{
+    $("#personPhotoUrl").value=await compactProfilePhoto(file);
+    toast("Foto pronta. Salve as alterações para usar no card.");
+  }catch(error){toast(error.message||"Não foi possível preparar a foto.");}
+};
