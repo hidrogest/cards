@@ -263,12 +263,12 @@
     },
     {
       "id": "p30",
-      "name": "Wlman de Oliveira",
+      "name": "Wilman de Oliveira",
       "birthday": "1987-06-04",
       "team": "",
-      "photo": "",
-      "message": "",
-      "photoStatus": "pending"
+      "photo": "https://drive.google.com/file/d/1jRtDEKKbELW1FtREI7B4Nz6PNYi60OZV/view?usp=sharing",
+      "photoStatus": "ready",
+      "message": ""
     }
   ],
   "messages": {
