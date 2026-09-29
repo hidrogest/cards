@@ -185,9 +185,9 @@
       "name": "Paula",
       "birthday": "1978-11-18",
       "team": "",
-      "photo": "",
-      "message": "",
-      "photoStatus": "pending"
+      "photo": "https://drive.google.com/file/d/1qqsBAUDJpOn683_VzQdwAuK5s6BijHJn/view?usp=sharing",
+      "photoStatus": "ready",
+      "message": ""
     },
     {
       "id": "p22",
