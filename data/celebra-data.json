@@ -104,9 +104,9 @@
       "name": "Gustavo Henrique da Silva Queiroz",
       "birthday": "1995-10-25",
       "team": "",
-      "photo": "",
-      "message": "",
-      "photoStatus": "pending"
+      "photo": "https://drive.google.com/file/d/12M5N13H3otdH7pUfq05v0250t0YGIxAv/view?usp=sharing",
+      "photoStatus": "ready",
+      "message": ""
     },
     {
       "id": "p13",
