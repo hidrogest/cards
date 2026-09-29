@@ -9,7 +9,14 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));
 function save(){localStorage.setItem(STORE,JSON.stringify(state));}
 function initials(name){return name.split(" ").filter(Boolean).slice(0,2).map(n=>n[0]).join("").toUpperCase();}
-function asPhoto(url){if(!url)return "";const match=url.match(/(?:\/d\/|id=)([\w-]{15,})/);return match?`https://drive.google.com/uc?export=view&id=${match[1]}`:url;}
+function driveFileId(value){
+  const text=String(value||"").trim();
+  if(!text)return "";
+  try{const parsed=new URL(text),id=parsed.searchParams.get("id");if(id&&/^[\w-]{10,}$/.test(id))return id;}catch{}
+  const match=text.match(/(?:\/d\/|[?&]id=|\/thumbnail\?id=)([\w-]{10,})/);
+  return match?match[1]:"";
+}
+function asPhoto(url){const id=driveFileId(url);return id?`https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w2000`:String(url||"").trim();}
 function birthdayParts(date){if(!date)return null;const [,m,d]=date.match(/\d{4}-(\d{2})-(\d{2})/)||[];return m&&d?{m:+m,d:+d}:null;}
 function nextOccurrence(p){const x=birthdayParts(p.birthday);if(!x)return null;const n=new Date(), y=n.getFullYear();let due=new Date(y,x.m-1,x.d,12);if(due<new Date(n.getFullYear(),n.getMonth(),n.getDate()))due.setFullYear(y+1);return due;}
 function daysUntil(p){const d=nextOccurrence(p);if(!d)return 9999;return Math.ceil((d-new Date())/86400000);}
