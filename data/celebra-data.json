@@ -140,9 +140,9 @@
       "name": "Luis Felipe",
       "birthday": "2001-10-21",
       "team": "",
-      "photo": "",
-      "message": "",
-      "photoStatus": "pending"
+      "photo": "https://drive.google.com/file/d/1ym5TW-qU2NA5ZUbLAFFybSkmc2OAKEmv/view?usp=sharing",
+      "photoStatus": "ready",
+      "message": ""
     },
     {
       "id": "p17",
