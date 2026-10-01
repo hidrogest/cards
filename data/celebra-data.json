@@ -212,9 +212,9 @@
       "name": "Rogerio",
       "birthday": "2004-10-23",
       "team": "",
-      "photo": "",
-      "message": "",
-      "photoStatus": "pending"
+      "photo": "https://drive.google.com/file/d/1fY4ti74ijPYZ8UJy9PL3euiyitEqQ3F9/view?usp=sharing",
+      "photoStatus": "ready",
+      "message": ""
     },
     {
       "id": "p25",
