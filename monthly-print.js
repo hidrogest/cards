@@ -87,7 +87,7 @@ async function printMonthly() {
   if (!printWindow) return monthlySetStatus("Seu navegador bloqueou a janela de impressão. Permita pop-ups para este site e tente novamente.",true);
   printWindow.document.write("<!doctype html><html lang='pt-BR'><head><title>Preparando mural Hidrogest</title></head><body><p>Preparando seu mural…</p></body></html>");
   try {
-    const response = await fetch(new URL("monthly-print.css?v=celebration-3",document.baseURI));
+    const response = await fetch(new URL("monthly-print.css?v=celebration-4",document.baseURI));
     if (!response.ok) throw new Error("Não foi possível preparar os estilos de impressão.");
     const styles = await response.text(), pages = monthlyPages(monthlySelection);
     const fonts = [...document.querySelectorAll("link[rel='stylesheet']")].filter(link => link.href.includes("fonts.googleapis.com"));
