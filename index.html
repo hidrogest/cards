@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="font-fix.css" />
   <link rel="stylesheet" href="brand-fix.css" />
   <link rel="stylesheet" href="hidrogest-theme.css" />
+  <link rel="stylesheet" href="monthly-print.css?v=celebration-3" />
 </head>
 <body>
   <div class="aurora aurora-a"></div><div class="aurora aurora-b"></div>
@@ -21,7 +22,7 @@
       <nav>
         <button class="nav-item active" data-view="dashboard">Visão geral</button>
         <button class="nav-item" data-view="people">Colaboradores <span id="peopleCount"></span></button>
-        <button class="nav-item" data-view="messages">Textos e cards</button><button class="nav-item" data-view="cards">Cards prontos</button>
+        <button class="nav-item" data-view="messages">Textos e cards</button><button class="nav-item" data-view="cards">Cards prontos</button><button class="nav-item" data-view="monthly">Mural impresso</button>
         <button class="nav-item" data-view="settings">Configurações</button>
       </nav>
       <div class="sidebar-bottom"><div class="mini-avatar">HG</div><div><strong>Administrador</strong><small id="syncLabel">sincronização pendente</small></div><button class="icon-button" id="signOut" aria-label="Sair">↗</button></div>
@@ -32,6 +33,7 @@
       <div id="peopleView" class="view" hidden></div>
       <div id="messagesView" class="view" hidden></div>
       <div id="cardsView" class="view" hidden></div>
+      <div id="monthlyView" class="view" hidden></div>
       <div id="settingsView" class="view" hidden></div>
     </section>
   </main>
@@ -44,5 +46,6 @@
   <script src="app.js?v=hidrogest-card-6"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" referrerpolicy="no-referrer"></script>
   <script src="github-sync.js"></script>
+  <script src="monthly-print.js?v=celebration-3"></script>
 </body>
 </html>
