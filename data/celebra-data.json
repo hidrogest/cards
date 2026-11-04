@@ -257,9 +257,9 @@
       "name": "Victor Ibrahim",
       "birthday": "1990-11-06",
       "team": "",
-      "photo": "",
-      "message": "",
-      "photoStatus": "pending"
+      "photo": "https://drive.google.com/file/d/1W9Nnsk5jylB26I5QNAO4NmQexYI2-oHF/view?usp=sharing",
+      "photoStatus": "ready",
+      "message": ""
     },
     {
       "id": "p30",
