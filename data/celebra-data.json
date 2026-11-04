@@ -23,9 +23,9 @@
       "name": "Anna Paula",
       "birthday": "1991-11-26",
       "team": "",
-      "photo": "",
-      "message": "",
-      "photoStatus": "pending"
+      "photo": "https://drive.google.com/file/d/13_HOEq8d-PKfaTQdImcg3vKLF4_Pu9n4/view?usp=sharing",
+      "photoStatus": "ready",
+      "message": ""
     },
     {
       "id": "p4",
