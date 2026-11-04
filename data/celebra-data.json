@@ -14,9 +14,9 @@
       "name": "Alvimar",
       "birthday": "1983-06-11",
       "team": "",
-      "photo": "",
-      "message": "",
-      "photoStatus": "pending"
+      "photo": "https://drive.google.com/file/d/1SysTaq0-dhsbEFo5VxZ2yzxptY4ApbeR/view?usp=sharing",
+      "photoStatus": "ready",
+      "message": ""
     },
     {
       "id": "p3",
