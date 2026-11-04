@@ -120,11 +120,11 @@
     {
       "id": "p14",
       "name": "Kellly",
-      "birthday": null,
+      "birthday": "",
       "team": "",
       "photo": "",
-      "message": "",
-      "photoStatus": "pending"
+      "photoStatus": "pending",
+      "message": ""
     },
     {
       "id": "p15",
