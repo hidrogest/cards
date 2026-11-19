@@ -269,6 +269,15 @@
       "photo": "https://drive.google.com/file/d/1jRtDEKKbELW1FtREI7B4Nz6PNYi60OZV/view?usp=sharing",
       "photoStatus": "ready",
       "message": ""
+    },
+    {
+      "id": "p1795096479906",
+      "name": "Kelly Siqueira",
+      "birthday": "1985-02-06",
+      "team": "Segurança do Trabalho",
+      "photo": "",
+      "photoStatus": "pending",
+      "message": ""
     }
   ],
   "messages": {
